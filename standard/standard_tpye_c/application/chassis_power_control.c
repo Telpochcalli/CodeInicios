@@ -25,23 +25,24 @@
 #include "detect_task.h"
 
 // Added by Jorge
-float power_limit_by_level = 40;
-float warning_power_by_level = 20;
-float warning_powerBuff_by_level = 5;
+// TODO: Change values?
+float power_limit_by_level = 35;        // Danny: 25
+float warning_power_by_level = 12;      // Danny: 20
+float warning_powerBuff_by_level = 8;   // Danny: 5
 
 // Basically, what I'm doing is instead of defining a value for the "variable"
 // I define it as another varible that can actually change it's value.
 // This to avoid a misreference in other parts of the code, and make it easier to 
 // change the parameters based on our needs.
 
-#define POWER_LIMIT         power_limit_by_level // Original: 80.0f 
-#define WARNING_POWER       warning_power_by_level // Original: 40.0f   
-#define WARNING_POWER_BUFF  warning_powerBuff_by_level // Original: 50.0f   
+#define POWER_LIMIT         power_limit_by_level        // Original: 80.0f 
+#define WARNING_POWER       warning_power_by_level      // Original: 40.0f   
+#define WARNING_POWER_BUFF  warning_powerBuff_by_level  // Original: 50.0f   
 
 // TODO: Set with values that were already tested
 #define NO_JUDGE_TOTAL_CURRENT_LIMIT    64000.0f    //16000 * 4, 
-#define BUFFER_TOTAL_CURRENT_LIMIT      16000.0f
-#define POWER_TOTAL_CURRENT_LIMIT       20000.0f
+#define BUFFER_TOTAL_CURRENT_LIMIT      10000.0f
+#define POWER_TOTAL_CURRENT_LIMIT       15000.0f
 
 /**
   * @brief          limit the power, mainly limit motor current
@@ -66,14 +67,15 @@ void chassis_power_control(chassis_move_t *chassis_power_control)
     if (robot_level == 2){ // TODO: Verify that it actually returns 2, and not 1
         // TODO: SET VALUES ACCORDINGLY TO A LEVEL 2 ROBOT
         
-        power_limit_by_level = 80;
+        power_limit_by_level = 50;          // Danny: 40
         warning_power_by_level = 20;
         warning_powerBuff_by_level = 10;
     }else{
         // Just in case the robot is downgraded or something idk
-        power_limit_by_level = 40;
-        warning_power_by_level = 20;
-        warning_powerBuff_by_level = 5;
+        // This must be the SAME AS THE DEFININITON.
+        power_limit_by_level = 35;
+        warning_power_by_level = 12;
+        warning_powerBuff_by_level = 8;
     }
 
     // Nomal process begins here:
