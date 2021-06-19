@@ -1,11 +1,11 @@
 /**
   ****************************(C) COPYRIGHT 2019 DJI****************************
   * @file       shoot.c/h
-  * @brief      Éä»÷¹¦ÄÜ¡£
+  * @brief      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¡ï¿½
   * @note       
   * @history
   *  Version    Date            Author          Modification
-  *  V1.0.0     Dec-26-2018     RM              1. Íê³É
+  *  V1.0.0     Dec-26-2018     RM              1. ï¿½ï¿½ï¿½
   *
   @verbatim
   ==============================================================================
@@ -26,34 +26,35 @@
 
 
 
-//Éä»÷·¢Éä¿ª¹ØÍ¨µÀÊý¾Ý
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä¿ªï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define SHOOT_RC_MODE_CHANNEL       1
-//ÔÆÌ¨Ä£Ê½Ê¹ÓÃµÄ¿ª¹ØÍ¨µÀ
+#define SHOOT_RC_CHANNEL_CIRCLE     4
+//ï¿½ï¿½Ì¨Ä£Ê½Ê¹ï¿½ÃµÄ¿ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 
 #define SHOOT_CONTROL_TIME          GIMBAL_CONTROL_TIME
 
 #define SHOOT_FRIC_PWM_ADD_VALUE    100.0f
 
-//Éä»÷Ä¦²ÁÂÖ¼¤¹â´ò¿ª ¹Ø±Õ
+//ï¿½ï¿½ï¿½Ä¦ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½ ï¿½Ø±ï¿½
 #define SHOOT_ON_KEYBOARD           KEY_PRESSED_OFFSET_Q
 #define SHOOT_OFF_KEYBOARD          KEY_PRESSED_OFFSET_E
 
-//Éä»÷Íê³Éºó ×Óµ¯µ¯³öÈ¥ºó£¬ÅÐ¶ÏÊ±¼ä£¬ÒÔ·ÀÎó´¥·¢
+//ï¿½ï¿½ï¿½ï¿½ï¿½Éºï¿½ ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½Ð¶ï¿½Ê±ï¿½ä£¬ï¿½Ô·ï¿½ï¿½ó´¥·ï¿½
 #define SHOOT_DONE_KEY_OFF_TIME     15
-//Êó±ê³¤°´ÅÐ¶Ï
+//ï¿½ï¿½ê³¤ï¿½ï¿½ï¿½Ð¶ï¿½
 #define PRESS_LONG_TIME             400
-//Ò£¿ØÆ÷Éä»÷¿ª¹Ø´òÏÂµµÒ»¶ÎÊ±¼äºó Á¬Ðø·¢Éä×Óµ¯ ÓÃÓÚÇåµ¥
+//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½Âµï¿½Ò»ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½åµ¥
 #define RC_S_LONG_TIME              2000
-//Ä¦²ÁÂÖ¸ßËÙ ¼ÓËÙ Ê±¼ä
+//Ä¦ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ê±ï¿½ï¿½
 #define UP_ADD_TIME                 80
-//µç»ú·´À¡ÂëÅÌÖµ·¶Î§
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Î§
 #define HALF_ECD_RANGE              4096
 #define ECD_RANGE                   8191
-//µç»úrmp ±ä»¯³É Ðý×ªËÙ¶ÈµÄ±ÈÀý
+//ï¿½ï¿½ï¿½rmp ï¿½ä»¯ï¿½ï¿½ ï¿½ï¿½×ªï¿½Ù¶ÈµÄ±ï¿½ï¿½ï¿½
 #define MOTOR_RPM_TO_SPEED          0.00290888208665721596153948461415f
 #define MOTOR_ECD_TO_ANGLE          0.000021305288720633905968306772076277f
 #define FULL_COUNT                  18
-//²¦µ¯ËÙ¶È
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
 #define TRIGGER_SPEED               10.0f
 #define CONTINUE_TRIGGER_SPEED      15.0f
 #define READY_TRIGGER_SPEED         5.0f
@@ -62,7 +63,7 @@
 #define SWITCH_TRIGGER_ON           0
 #define SWITCH_TRIGGER_OFF          1
 
-//¿¨µ¥Ê±¼ä ÒÔ¼°·´×ªÊ±¼ä
+//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½×ªÊ±ï¿½ï¿½
 #define BLOCK_TRIGGER_SPEED         1.0f
 #define BLOCK_TIME                  700
 #define REVERSE_TIME                500
@@ -71,7 +72,7 @@
 #define PI_FOUR                     0.78539816339744830961566084581988f
 #define PI_TEN                      0.314f
 
-//²¦µ¯ÂÖµç»úPID
+//ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½PID
 #define TRIGGER_ANGLE_PID_KP        800.0f
 #define TRIGGER_ANGLE_PID_KI        0.5f
 #define TRIGGER_ANGLE_PID_KD        0.0f
@@ -134,7 +135,7 @@ typedef struct
     uint16_t heat;
 } shoot_control_t;
 
-//ÓÉÓÚÉä»÷ºÍÔÆÌ¨Ê¹ÓÃÍ¬Ò»¸öcanµÄid¹ÊÒ²Éä»÷ÈÎÎñÔÚÔÆÌ¨ÈÎÎñÖÐÖ´ÐÐ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¨Ê¹ï¿½ï¿½Í¬Ò»ï¿½ï¿½canï¿½ï¿½idï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½
 extern void shoot_init(void);
 extern int16_t shoot_control_loop(void);
 
