@@ -181,6 +181,12 @@ uint8_t get_robot_id(void)
     return robot_state.robot_id;
 }
 
+// Added by Jorge
+uint8_t get_robot_level(void)
+{
+    return robot_state.robot_level;
+}
+
 void get_shoot_heat0_limit_and_heat0(uint16_t *heat0_limit, uint16_t *heat0)
 {
     *heat0_limit = robot_state.shooter_heat0_cooling_limit;
