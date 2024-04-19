@@ -149,8 +149,8 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-    osThreadDef(cali, calibrate_task, osPriorityNormal, 0, 512);
-    calibrate_tast_handle = osThreadCreate(osThread(cali), NULL);
+    //osThreadDef(cali, calibrate_task, osPriorityNormal, 0, 512);
+    //calibrate_tast_handle = osThreadCreate(osThread(cali), NULL);
 
     osThreadDef(ChassisTask, chassis_task, osPriorityAboveNormal, 0, 512);
     chassisTaskHandle = osThreadCreate(osThread(ChassisTask), NULL);
@@ -158,8 +158,8 @@ void MX_FREERTOS_Init(void) {
     osThreadDef(DETECT, detect_task, osPriorityNormal, 0, 256);
     detect_handle = osThreadCreate(osThread(DETECT), NULL);
 
-    osThreadDef(gimbalTask, gimbal_task, osPriorityHigh, 0, 512);
-    gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
+    //osThreadDef(gimbalTask, gimbal_task, osPriorityHigh, 0, 512);
+    //gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 
     osThreadDef(imuTask, INS_task, osPriorityRealtime, 0, 1024);
     imuTaskHandle = osThreadCreate(osThread(imuTask), NULL);
@@ -168,8 +168,8 @@ void MX_FREERTOS_Init(void) {
     led_RGB_flow_handle = osThreadCreate(osThread(led), NULL);
 
 
-    osThreadDef(OLED, oled_task, osPriorityLow, 0, 256);
-    oled_handle = osThreadCreate(osThread(OLED), NULL);
+    //osThreadDef(OLED, oled_task, osPriorityLow, 0, 256);
+    //oled_handle = osThreadCreate(osThread(OLED), NULL);
 
 
     osThreadDef(REFEREE, referee_usart_task, osPriorityNormal, 0, 128);
